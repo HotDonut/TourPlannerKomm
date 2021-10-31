@@ -13,20 +13,6 @@ namespace TourPlanner.ViewModels
 
         public ObservableCollection<Tour> Tours { get; set; }
         public string Name { get; set; }
-        private string higherOrLower;
-
-        public string HigherOrLower
-        {
-            get { return higherOrLower; }
-            set
-            {
-                if (higherOrLower != value)
-                {
-                    higherOrLower = value;
-                    RaisePropertyChangedEvent(nameof(HigherOrLower));
-                }
-            }
-        }
 
         public MainViewModel()
         {
@@ -36,8 +22,6 @@ namespace TourPlanner.ViewModels
             Tours.Add(a);
             Tours.Add(b);
         }
-
-
 
     }
 
