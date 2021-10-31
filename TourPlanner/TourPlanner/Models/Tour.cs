@@ -36,5 +36,23 @@ namespace TourPlanner.Models
             this.Distance = distance;
             this.ImagePath = imagePath;
         }
+
+        public string GetFieldValue(string fieldName, bool caseSensitive = false)
+        {
+            var ergObj = this.GetType().GetProperty(fieldName)?.GetValue(this, null);
+
+            if (ergObj == null)
+                return "";
+
+            string erg = ergObj.ToString();
+            return caseSensitive ? erg : erg.ToLower();
+        }
+
+        public bool HasImage()
+        {
+            if (ImagePath.Equals(@".\..\..\..\Images\Icon\No_Image_Icon.png"))
+                return false;
+            return true;
+        }
     }
 }

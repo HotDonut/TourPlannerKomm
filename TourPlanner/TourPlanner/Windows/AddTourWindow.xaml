@@ -1,0 +1,83 @@
+﻿<Window x:Class="TourPlanner.Windows.AddTourWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:TourPlanner.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewModels:AddTourViewModel}"
+        mc:Ignorable="d"
+        Title="AddTourWindow" Height="Auto" Width="300" SizeToContent="Height">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="1" BorderThickness="0.5" BorderBrush="Gray"/>
+        <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Gray"/>
+        <Border Grid.Row="3" BorderThickness="0.5" BorderBrush="Gray"/>
+        <Border Grid.Row="4" BorderThickness="0.5" BorderBrush="Gray"/>
+
+        <Grid Row="0">
+            <Label FontSize="30" FontWeight="Medium" HorizontalAlignment="Center" Content="Add a new Tour"/>
+        </Grid>
+        <Grid Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,5,0,0" Content="TourName:"/>
+            <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourName, Mode=OneWayToSource}"/>
+        </Grid>
+
+        <Grid Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,5,0,0" Content="From:"/>
+            <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourFromLocation, Mode=OneWayToSource}"/>
+        </Grid>
+
+        <Grid Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,5,0,0" Content="To:"/>
+            <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourToLocation, Mode=OneWayToSource}"/>
+        </Grid>
+
+        <Grid Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,5,0,0" Content="Description:"/>
+            <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourDescription, Mode=OneWayToSource}"/>
+        </Grid>
+
+        <Grid Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,5,0,0" Content="Distance:"/>
+            <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourDistance, Mode=OneWayToSource, FallbackValue=0}" PreviewTextInput="NumbersOnly"/>
+        </Grid>
+
+        <Grid Row="6">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Margin="5px" Padding="2px" MaxHeight="20" Content="Add" Command="{Binding AddTourCommand}"/>
+                <Button Margin="5px" Padding="2px" MaxHeight="20" Content="Cancel" Command="{Binding CancelTourCommand}"/>
+            </StackPanel>
+            
+        </Grid>
+    </Grid>
+</Window>
