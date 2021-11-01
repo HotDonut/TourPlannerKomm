@@ -15,8 +15,10 @@ namespace TourPlanner.ViewModels
         private ITourPlannerFactory _tourPlannerFactory;
 
         private ICommand _addCommand;
+        private ICommand _removeCommand;
 
-        public ICommand AddCommand => _addCommand ??= new RelayCommand(Add);
+        public ICommand AddCommand => _addCommand ??= new RelayCommand(AddTour);
+        public ICommand RemoveCommand => _removeCommand ??= new RelayCommand(RemoveTour);
 
         public ObservableCollection<Tour> TourList { get; set; }
         public ObservableCollection<Log> LogList { get; set; }
@@ -56,12 +58,21 @@ namespace TourPlanner.ViewModels
             }
         }
 
-        private void Add(object commandParameter)
+        private void AddTour(object commandParameter)
         {
             AddTourWindow addTourWindow = new AddTourWindow(this);
             addTourWindow.Show();
         }
 
-    }
+        private void RemoveTour(object commandParameter)
+        {
+            string imagePath = CurrentTour.ImagePath;
+            CurrentTour.ImagePath = null;
+            RaisePropertyChangedEvent(nameof(CurrentTour));
+            _tourPlannerFactory.DeleteTour(CurrentTour, imagePath);
+            CurrentTour = null;
 
+            LoadTours();
+        }
+    }
 }
