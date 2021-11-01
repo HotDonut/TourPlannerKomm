@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace TourPlanner.BusinessLayer {
-    public class MapQuest : IMapQuest
+    public class MapQuest
     {
         private readonly string _baseUrl;
         private readonly HttpClient _client;
@@ -23,6 +23,23 @@ namespace TourPlanner.BusinessLayer {
             _client = new HttpClient();
             _apiKey = ConfigurationManager.AppSettings["MapQuestKey"];
             _filePath = ConfigurationManager.AppSettings["ImagePath"];
+        }
+
+
+        public int GetRouteInformation(string fromLocation, string toLocation)
+        {
+            if (DoesLocationExist(fromLocation) && DoesLocationExist(toLocation))
+            {
+                var url = _baseUrl + "/directions/v2/route?key=" + _apiKey + "&from=" + fromLocation + "&to=" + toLocation + "&unit=k";
+                using (WebClient client = new WebClient())
+                {
+                    JObject jSonResponse = JObject.Parse(client.DownloadString(url));
+                    int distance = (int)jSonResponse["route"]["distance"];
+                    return distance;
+                }
+            }
+
+            return -1;
         }
 
         public string LoadImage(string fromLocation, string toLocation)

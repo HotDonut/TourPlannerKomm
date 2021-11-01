@@ -79,7 +79,8 @@ namespace TourPlanner.BusinessLayer
         public Tour AddTour(string tourName, string tourDescription, string tourFromLocation, string tourToLocation, int tourDistance)
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
-            IMapQuest mapQuest = new MapQuest();
+            MapQuest mapQuest = new MapQuest();
+            tourDistance = mapQuest.GetRouteInformation(tourFromLocation, tourToLocation);
             string imagePath = mapQuest.LoadImage(tourFromLocation, tourToLocation);
             return tourDao.AddNewTour(tourName, tourFromLocation, tourToLocation, tourDescription, tourDistance, imagePath);
         }
@@ -115,7 +116,7 @@ namespace TourPlanner.BusinessLayer
             int tourDistance)
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
-            IMapQuest mapQuest = new MapQuest();
+            MapQuest mapQuest = new MapQuest();
             string imagePath = mapQuest.LoadImage(tourFromLocation, tourToLocation);
             return tourDao.EditTour(tour, tourName, tourDescription, tourFromLocation, tourToLocation, tourDistance, imagePath);
         }
