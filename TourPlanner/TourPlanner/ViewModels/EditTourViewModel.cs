@@ -18,7 +18,6 @@ namespace TourPlanner.ViewModels
         private string _tourDescription;
         private string _tourFromLocation;
         private string _tourToLocation;
-        private int _tourDistance;
 
         private ICommand _editTourCommand;
         private ICommand _cancelTourCommand;

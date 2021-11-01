@@ -31,6 +31,10 @@ namespace TourPlanner.ViewModels
         public ICommand RemoveLogCommand => _removeLogCommand ??= new RelayCommand(RemoveLog);
         private ICommand _copyLogCommand;
         public ICommand CopyLogCommand => _copyLogCommand ??= new RelayCommand(CopyLog);
+        private ICommand _printTourCommand;
+        public ICommand PrintTourCommand => _printTourCommand ??= new RelayCommand(PrintTour);
+        private ICommand _printAllCommand;
+        public ICommand PrintAllCommand => _printAllCommand ??= new RelayCommand(PrintAll);
 
 
         public ObservableCollection<Tour> TourList { get; set; }
@@ -187,6 +191,29 @@ namespace TourPlanner.ViewModels
             else
             {
                 MessageBox.Show("Please select the log you want to copy!");
+            }
+        }
+
+        private void PrintTour(object commandParameter)
+        {
+            if (CurrentTour != null)
+            {
+                if (_tourPlannerFactory.PrintData(CurrentTour))
+                {
+                    MessageBox.Show("Successfully created PDF at location specified in the config file");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select the tour you want to print!");
+            }
+        }
+
+        private void PrintAll(object commandParameter)
+        {
+            if (_tourPlannerFactory.PrintAllData())
+            {
+                MessageBox.Show("Successfully created PDF at location specified in the config file");
             }
         }
     }

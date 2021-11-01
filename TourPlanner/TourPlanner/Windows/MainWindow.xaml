@@ -260,8 +260,8 @@
 
             <Button Grid.Column="0" Content="Import Data"/>
             <Button Grid.Column="1" Content="Export Data"/>
-            <Button Grid.Column="2" Content="Print Tour"/>
-            <Button Grid.Column="3" Content="Print All"/>
+            <Button Grid.Column="2" Content="Print Tour" Command="{Binding PrintTourCommand}"/>
+            <Button Grid.Column="3" Content="Print All" Command="{Binding PrintAllCommand}"/>
         </Grid>
     </Grid>
 </Window>

@@ -7,7 +7,6 @@ namespace TourPlanner.DataAccess.Implementation
 {
     public class DALFactory
     {
-        private static string _assemblyName;
         private static IDatabase _database;
 
 

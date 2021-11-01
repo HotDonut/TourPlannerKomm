@@ -5,6 +5,7 @@ using System.Linq;
 using TourPlanner.DataAccess.Interfaces;
 using TourPlanner.DataAccess.Implementation;
 using TourPlanner.Models;
+using TourPlanner.Businesslayer;
 
 namespace TourPlanner.BusinessLayer
 {
@@ -131,6 +132,19 @@ namespace TourPlanner.BusinessLayer
         {
             ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
             return tourLogDao.AddNewTourLog(tour, tourLog.DateTime, tourLog.Report, tourLog.Distance, tourLog.TotalTime, tourLog.Rating, tourLog.Breaks, tourLog.Weather, tourLog.FuelConsumption, tourLog.Passenger, tourLog.Elevation);
+        }
+
+        public bool PrintData(Tour currentTour)
+        {
+            PDFGenerator gen = new PDFGenerator();
+            return gen.GenerateReport(new List<Tour>() { currentTour });
+        }
+
+        public bool PrintAllData()
+        {
+            PDFGenerator gen = new PDFGenerator();
+            ITourDAO tourDao = DALFactory.CreateTourDAO();
+            return gen.GenerateReport(tourDao.GetTours());
         }
     }
 }
