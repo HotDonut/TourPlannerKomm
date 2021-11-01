@@ -8,17 +8,17 @@ using TourPlanner.DataAccess.Interfaces;
 namespace TourPlanner.DataAccess.Implementation {
     class LogPostgresDAO : ILogDAO {
 
-        private const string SqlFindById = "SELECT * FROM public.\"TourLog\" WHERE \"Id\"=@Id;";
-        private const string SqlGetAllTourLogs = "SELECT * FROM public.\"TourLog\";";
-        private const string SqlFindByTour = "SELECT * FROM public.\"TourLog\" WHERE \"TourId\"=@TourId;";
-        private const string SqlDeleteTourLog = "DELETE FROM public.\"TourLog\" WHERE \"Id\"=@Id;";
-        private const string SqlEditTourLog = "UPDATE public.\"TourLog\" SET " +
-                                              "\"DateTime\"=@DateTime, \"Report\"=@Report, \"Distance\"=@Distance, \"TotalTime\"=@TotalTime, \"Rating\"=@Rating, " +
-                                              "\"Vehicle\"=@Vehicle, \"AvgSpeed\"=@AvgSpeed, \"People\"=@People, \"Breaks\"=@Breaks, \"LinearDistance\"=@LinearDistance " +
-                                              "WHERE \"Id\"=@Id RETURNING \"Id\";";
-        private const string SqlInsertNewTourLog = "INSERT INTO public.\"TourLog\" (\"TourId\",\"DateTime\",\"Report\",\"Distance\",\"TotalTime\", \"Rating\", \"Vehicle\", \"AvgSpeed\", \"People\", \"Breaks\", \"LinearDistance\") " +
+        private const string SqlFindById = "SELECT * FROM TourLog WHERE Id=@Id;";
+        private const string SqlGetAllTourLogs = "SELECT * FROM TourLog;";
+        private const string SqlFindByTour = "SELECT * FROM TourLogWHERE TourId=@TourId;";
+        private const string SqlDeleteTourLog = "DELETE FROM TourLog WHERE Id=@Id;";
+        private const string SqlEditTourLog = "UPDATE TourLog SET " +
+                                              "DateTime=@DateTime, Report=@Report, Distance=@Distance, TotalTime=@TotalTime, Rating=@Rating, " +
+                                              "Vehicle=@Vehicle, AvgSpeed=@AvgSpeed, People=@People, Breaks=@Breaks, LinearDistance=@LinearDistance " +
+                                              "WHERE Id=@Id RETURNING Id;";
+        private const string SqlInsertNewTourLog = "INSERT INTO TourLog (TourId, DateTime,Report,Distance,TotalTime, Rating, Vehicle, AvgSpeed, People, Breaks, LinearDistance) " +
                                                    "VALUES (@TourId, @DateTime, @Report, @Distance, @TotalTime, @Rating, @Vehicle, @AvgSpeed, @People, @Breaks, @LinearDistance) " +
-                                                   "RETURNING \"Id\";";
+                                                   "RETURNING Id;";
 
         private IDatabase _database;
         private ITourDAO _tourDAO;

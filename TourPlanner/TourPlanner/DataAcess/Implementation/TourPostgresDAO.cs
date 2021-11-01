@@ -9,20 +9,20 @@ namespace TourPlanner.DataAccess.Implementation
 {
     public class TourPostgresDAO : ITourDAO
     {
-        private const string SqlFindById = "SELECT * FROM public.\"Tour\" WHERE \"Id\"=@Id;";
+        private const string SqlFindById = "SELECT * FROM Tour WHERE Id=@Id;";
 
-        private const string SqlGetAllTours = "SELECT * FROM public.\"Tour\";";
+        private const string SqlGetAllTours = "SELECT * FROM Tour;";
 
-        private const string SqlDeleteTour = "DELETE FROM public.\"Tour\" WHERE \"Id\"=@Id;";
+        private const string SqlDeleteTour = "DELETE FROM Tour WHERE Id=@Id;";
 
-        private const string SqlEditTour = "UPDATE public.\"Tour\" SET " +
-                                           "\"ToLocation\"=@ToLocation, \"Name\"=@Name, \"FromLocation\"=@FromLocation, " +
-                                           "\"Description\"=@Description, \"Distance\"=@Distance, \"ImagePath\"=@ImagePath " +
-                                           "WHERE \"Id\"=@Id RETURNING \"Id\";";
+        private const string SqlEditTour = "UPDATE Tour SET " +
+                                           "ToLocation=@ToLocation, Name=@Name, FromLocation=@FromLocation, " +
+                                           "Description=@Description, Distance=@Distance, ImagePath=@ImagePath " +
+                                           "WHERE Id=@Id RETURNING Id;";
 
-        private const string SqlInsertNewTour = "INSERT INTO public.\"Tour\" (\"Name\",\"FromLocation\",\"ToLocation\",\"Description\",\"Distance\",\"ImagePath\") " +
+        private const string SqlInsertNewTour = "INSERT INTO Tour (Name, FromLocation, ToLocation, Description, Distance, ImagePath) " +
                                                 "VALUES (@Name, @FromLocation, @ToLocation, @Description, @Distance, @ImagePath) " +
-                                                "RETURNING \"Id\";";
+                                                "RETURNING Id;";
 
 
         private IDatabase _database;

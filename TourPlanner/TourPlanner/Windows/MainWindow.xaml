@@ -62,7 +62,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Tour Info Table -->
-            <DataGrid Margin="2,0,2,2" ItemsSource="{Binding Tours}"
+            <DataGrid Margin="2,0,2,2" ItemsSource="{Binding TourList}"
                           AutoGenerateColumns="False" 
                           AlternatingRowBackground="LightGray"
                           CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">

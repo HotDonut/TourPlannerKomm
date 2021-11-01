@@ -6,25 +6,39 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using TourPlanner.Models;
 using TourPlanner.Windows;
+using TourPlanner.BusinessLayer;
 
 namespace TourPlanner.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private ITourPlannerFactory _tourPlannerFactory;
+
         private ICommand _addCommand;
 
         public ICommand AddCommand => _addCommand ??= new RelayCommand(Add);
 
-        public ObservableCollection<Tour> Tours { get; set; }
+        public ObservableCollection<Tour> TourList { get; set; }
+        public ObservableCollection<Log> LogList { get; set; }
         public string Name { get; set; }
+
+
 
         public MainViewModel()
         {
-            Tours = new ObservableCollection<Tour>();
-            Tour a = new Tour(0, "Test", "TestTour", "Vienna", "Graz", 200, "");
-            Tour b = new Tour(0, "Test", "TestTour", "Vienna", "Graz", 200, "");
-            Tours.Add(a);
-            Tours.Add(b);
+            this._tourPlannerFactory = TourPlannerFactory.GetInstance();
+            TourList = new ObservableCollection<Tour>();
+            LogList = new ObservableCollection<Log>();
+            LoadTours();
+        }
+
+        private void LoadTours()
+        {
+            TourList.Clear();
+            foreach (var tour in this._tourPlannerFactory.GetTours())
+            {
+                TourList.Add(tour);
+            }
         }
 
         private void Add(object commandParameter)

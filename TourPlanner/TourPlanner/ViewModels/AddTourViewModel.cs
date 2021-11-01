@@ -99,7 +99,7 @@ namespace TourPlanner.ViewModels
         private void AddTour(object commandParameter)
         {
             Tour tour = _tourPlannerFactory.AddTour(_tourName, _tourDescription, _tourFromLocation, _tourToLocation, _tourDistance);
-            _mainView.Tours.Add(tour);
+            _mainView.TourList.Add(tour);
             _window.Close();
         }
 
