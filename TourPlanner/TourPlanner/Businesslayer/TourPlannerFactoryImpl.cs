@@ -35,7 +35,8 @@ namespace TourPlanner.BusinessLayer
             return found.Concat(tourLogs.Where(x => x.GetFieldValue(fieldName, caseSensitive).Contains(searchArg)));
         }
 
-        public IEnumerable<Tour> Search(string searchArg, bool caseSensitive = false) {
+        public IEnumerable<Tour> Search(string searchArg, bool caseSensitive = false)
+        {
             IEnumerable<Tour> tours = GetTours();
             IEnumerable<Tour> found = new List<Tour>();
 
@@ -74,7 +75,7 @@ namespace TourPlanner.BusinessLayer
             }
 
             return found.Distinct();
-            }
+        }
 
         public Tour AddTour(string tourName, string tourDescription, string tourFromLocation, string tourToLocation)
         {
@@ -83,33 +84,6 @@ namespace TourPlanner.BusinessLayer
             string imagePath = mapQuest.LoadImage();
             int tourDistance = mapQuest.GetRouteDistance();
             return tourDao.AddNewTour(tourName, tourFromLocation, tourToLocation, tourDescription, tourDistance, imagePath);
-        }
-
-        public Log AddTourLog(Tour tour, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
-        {
-            ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
-            return tourLogDao.AddNewTourLog(tour, dateTime, report, distance, totalTime, rating, breaks, weather, fuelConsumption, passenger, elevation);
-        }
-
-        public void DeleteTour(Tour tour, string imagePath)
-        {
-            ITourDAO tourDao = DALFactory.CreateTourDAO();
-
-            if (!imagePath.Equals(""))
-            {
-                //TODO
-                //Image tempImage = Image.FromFile(imagePath);
-                //tempImage.Dispose();
-                //File.Delete(imagePath);
-            }
-
-            tourDao.DeleteTour(tour);
-        }
-
-        public void DeleteTourLog(Log tourLog)
-        {
-            ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
-            tourLogDao.DeleteTourLog(tourLog);
         }
 
         public Tour EditTour(Tour tour, string tourName, string tourDescription, string tourFromLocation, string tourToLocation)
@@ -121,6 +95,13 @@ namespace TourPlanner.BusinessLayer
             return tourDao.EditTour(tour, tourName, tourDescription, tourFromLocation, tourToLocation, tourDistance, imagePath);
         }
 
+        public void DeleteTour(Tour tour, string imagePath)
+        {
+            ITourDAO tourDao = DALFactory.CreateTourDAO();
+
+            tourDao.DeleteTour(tour);
+        }
+
         public Tour CopyTour(Tour tour)
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
@@ -128,10 +109,28 @@ namespace TourPlanner.BusinessLayer
             return tourDao.AddNewTour(tour.Name, tour.FromLocation, tour.ToLocation, tour.Description, tour.Distance, mapQuest.LoadImage());
         }
 
+        public Log AddTourLog(Tour tour, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
+        {
+            ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
+            return tourLogDao.AddNewTourLog(tour, dateTime, report, distance, totalTime, rating, breaks, weather, fuelConsumption, passenger, elevation);
+        }
+
         public Log EditTourLog(Log tourLog, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
         {
             ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
             return tourLogDao.EditTourLog(tourLog, dateTime, report, distance, totalTime, rating, breaks, weather, fuelConsumption, passenger, elevation);
+        }
+
+        public void DeleteTourLog(Log tourLog)
+        {
+            ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
+            tourLogDao.DeleteTourLog(tourLog);
+        }
+
+        public Log CopyTourLog(Tour tour, Log tourLog)
+        {
+            ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
+            return tourLogDao.AddNewTourLog(tour, tourLog.DateTime, tourLog.Report, tourLog.Distance, tourLog.TotalTime, tourLog.Rating, tourLog.Breaks, tourLog.Weather, tourLog.FuelConsumption, tourLog.Passenger, tourLog.Elevation);
         }
     }
 }
