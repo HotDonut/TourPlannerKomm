@@ -45,12 +45,14 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Log Add/Remove Button -->
                 <Button Grid.Column = "0" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="20" Content="Add" Command="{Binding AddCommand}"/>
                 <Button Grid.Column = "1" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="20" Content="Edit" Command="{Binding EditCommand}"/>
                 <Button Grid.Column = "2" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="20" Content="Remove" Command="{Binding RemoveCommand}"/>
+                <Button Grid.Column = "3" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="20" Content="Copy" Command="{Binding CopyCommand}"/>
             </Grid>
         </Grid>
 
@@ -145,7 +147,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Log Add/Remove Button -->
-                <Button Grid.Column = "0" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="20" Content="Add"/>
+                <Button Grid.Column = "0" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="20" Content="Add" Command="{Binding AddLogCommand}"/>
                 <Button Grid.Column = "1" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="20" Content="Edit"/>
                 <Button Grid.Column = "2" Margin="1,1,1,2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="20" Content="Remove"/>
             </Grid>
@@ -154,13 +156,14 @@
         <!-- Log Grid Layout -->
         <Grid Grid.Row="3">
             <!-- Log Information Table -->
-            <DataGrid Margin="2,0,2,2"
+            <DataGrid Margin="2,0,2,2" ItemsSource="{Binding LogList}"
                       AutoGenerateColumns="False" 
                       AlternatingRowBackground="LightGray"
-                      CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                      CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                      SelectedItem="{Binding CurrentLog, Mode=TwoWay}">
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date/Time (dd-mm-yyyy)" Width="1*">
+                    <DataGridTextColumn Binding="{Binding DateTime}" Header="Date/Time (dd-mm-yyyy)" Width="Auto">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -168,7 +171,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Report" Width="1*">
+                    <DataGridTextColumn Binding="{Binding Report}" Header="Report" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -176,7 +179,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Distance (km)" Width="1*">
+                    <DataGridTextColumn Binding="{Binding Distance}" Header="Distance (km)" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -184,7 +187,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Total-time (hh:mm)" Width="1*">
+                    <DataGridTextColumn Binding="{Binding TotalTime}" Header="Total-time (hh:mm)" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -192,7 +195,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Rating" Width="1*">
+                    <DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -200,7 +203,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Vehicle" Width="1*">
+                    <DataGridTextColumn  Binding="{Binding Breaks}" Header="Breaks" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -208,7 +211,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Avg. Speed (km/h)" Width="1*">
+                    <DataGridTextColumn Binding="{Binding Weather}" Header="Weather" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -216,7 +219,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="People" Width="1*">
+                    <DataGridTextColumn Binding="{Binding FuelConsumption}" Header="Fuel Consumption" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -224,7 +227,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Breaks" Width="1*">
+                    <DataGridTextColumn Binding="{Binding Passenger}" Header="Passenger" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -232,7 +235,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Linear Distance (km)" Width="1*">
+                    <DataGridTextColumn  Binding="{Binding Elevation}" Header="Elevation" Width="1*">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />

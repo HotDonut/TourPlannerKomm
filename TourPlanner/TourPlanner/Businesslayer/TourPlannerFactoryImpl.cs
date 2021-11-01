@@ -85,10 +85,10 @@ namespace TourPlanner.BusinessLayer
             return tourDao.AddNewTour(tourName, tourFromLocation, tourToLocation, tourDescription, tourDistance, imagePath);
         }
 
-        public Log AddTourLog(Tour tour, string dateTime, string report, int distance, string totalTime, int rating, string vehicle, int avgSpeed, string people, int breaks, int linearDistance)
+        public Log AddTourLog(Tour tour, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
         {
             ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
-            return tourLogDao.AddNewTourLog(tour, dateTime, report, distance, totalTime, rating, vehicle, avgSpeed, people, breaks, linearDistance);
+            return tourLogDao.AddNewTourLog(tour, dateTime, report, distance, totalTime, rating, breaks, weather, fuelConsumption, passenger, elevation);
         }
 
         public void DeleteTour(Tour tour, string imagePath)
@@ -121,10 +121,17 @@ namespace TourPlanner.BusinessLayer
             return tourDao.EditTour(tour, tourName, tourDescription, tourFromLocation, tourToLocation, tourDistance, imagePath);
         }
 
-        public Log EditTourLog(Log tourLog, string dateTime, string report, int distance, string totalTime, int rating, string vehicle, int avgSpeed, string people, int breaks, int linearDistance)
+        public Tour CopyTour(Tour tour)
+        {
+            ITourDAO tourDao = DALFactory.CreateTourDAO();
+            MapQuest mapQuest = new MapQuest(tour.FromLocation, tour.ToLocation);
+            return tourDao.AddNewTour(tour.Name, tour.FromLocation, tour.ToLocation, tour.Description, tour.Distance, mapQuest.LoadImage());
+        }
+
+        public Log EditTourLog(Log tourLog, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
         {
             ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
-            return tourLogDao.EditTourLog(tourLog, dateTime, report, distance, totalTime, rating, vehicle, avgSpeed, people, breaks, linearDistance);
+            return tourLogDao.EditTourLog(tourLog, dateTime, report, distance, totalTime, rating, breaks, weather, fuelConsumption, passenger, elevation);
         }
     }
 }

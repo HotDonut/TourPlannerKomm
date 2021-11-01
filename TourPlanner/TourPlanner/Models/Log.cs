@@ -15,12 +15,12 @@ namespace TourPlanner.Models
         public int Distance { get; set; }
         public string TotalTime { get; set; }
         public int Rating { get; set; }
-        public string Vehicle { get; set; }
-        public int AvgSpeed { get; set; }
-        public string People { get; set; }
         public int Breaks { get; set; }
-        public int LinearDistance { get; set; }
-        public Log(int id, int tourId, string dateTime, string report, int distance, string totalTime, int rating, string vehicle, int avgSpeed, string people, int breaks, int linearDistance)
+        public string Weather { get; set; }
+        public int FuelConsumption { get; set; }
+        public string Passenger { get; set; }
+        public int Elevation { get; set; }
+        public Log(int id, int tourId, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
         {
             this.Id = id;
             this.TourId = tourId;
@@ -29,11 +29,11 @@ namespace TourPlanner.Models
             this.Distance = distance;
             this.TotalTime = totalTime;
             this.Rating = rating;
-            this.Vehicle = vehicle;
-            this.AvgSpeed = avgSpeed;
-            this.People = people;
             this.Breaks = breaks;
-            this.LinearDistance = linearDistance;
+            this.Weather = weather;
+            this.FuelConsumption = fuelConsumption;
+            this.Passenger = passenger;
+            this.Elevation = elevation;
         }
 
         public string GetFieldValue(string fieldName, bool caseSensitive = false)

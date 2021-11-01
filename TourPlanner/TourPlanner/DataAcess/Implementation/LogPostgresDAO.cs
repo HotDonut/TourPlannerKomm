@@ -10,14 +10,14 @@ namespace TourPlanner.DataAccess.Implementation {
 
         private const string SqlFindById = "SELECT * FROM TourLog WHERE Id=@Id;";
         private const string SqlGetAllTourLogs = "SELECT * FROM TourLog;";
-        private const string SqlFindByTour = "SELECT * FROM TourLogWHERE TourId=@TourId;";
+        private const string SqlFindByTour = "SELECT * FROM TourLog WHERE TourId=@TourId;";
         private const string SqlDeleteTourLog = "DELETE FROM TourLog WHERE Id=@Id;";
         private const string SqlEditTourLog = "UPDATE TourLog SET " +
                                               "DateTime=@DateTime, Report=@Report, Distance=@Distance, TotalTime=@TotalTime, Rating=@Rating, " +
-                                              "Vehicle=@Vehicle, AvgSpeed=@AvgSpeed, People=@People, Breaks=@Breaks, LinearDistance=@LinearDistance " +
+                                              "Breaks=@Breaks, Weather=@Weather, FuelConsumption=@FuelConsumption, Passenger=@Passenger, Elevation=@Elevation " +
                                               "WHERE Id=@Id RETURNING Id;";
-        private const string SqlInsertNewTourLog = "INSERT INTO TourLog (TourId, DateTime,Report,Distance,TotalTime, Rating, Vehicle, AvgSpeed, People, Breaks, LinearDistance) " +
-                                                   "VALUES (@TourId, @DateTime, @Report, @Distance, @TotalTime, @Rating, @Vehicle, @AvgSpeed, @People, @Breaks, @LinearDistance) " +
+        private const string SqlInsertNewTourLog = "INSERT INTO TourLog (TourId, DateTime,Report,Distance,TotalTime, Rating, Breaks, Weather, FuelConsumption, Passenger, Elevation) " +
+                                                   "VALUES (@TourId, @DateTime, @Report, @Distance, @TotalTime, @Rating, @Breaks, @Weather, @FuelConsumption, @Passenger, @Elevation) " +
                                                    "RETURNING Id;";
 
         private IDatabase _database;
@@ -44,7 +44,7 @@ namespace TourPlanner.DataAccess.Implementation {
             return logs.FirstOrDefault();
         }
 
-        public Log AddNewTourLog(Tour tour, string dateTime, string report, int distance, string totalTime, int rating, string vehicle, int avgSpeed, string people, int breaks, int linearDistance)
+        public Log AddNewTourLog(Tour tour, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
         {
             DbCommand insertCommand = _database.CreateCommand(SqlInsertNewTourLog);
             _database.DefineParameter(insertCommand, "@TourId", DbType.Int32, tour.Id);
@@ -53,11 +53,11 @@ namespace TourPlanner.DataAccess.Implementation {
             _database.DefineParameter(insertCommand, "@Distance", DbType.Int32, distance);
             _database.DefineParameter(insertCommand, "@TotalTime", DbType.String, totalTime);
             _database.DefineParameter(insertCommand, "@Rating", DbType.Int32, rating);
-            _database.DefineParameter(insertCommand, "@Vehicle", DbType.String, vehicle);
-            _database.DefineParameter(insertCommand, "@AvgSpeed", DbType.Int32, avgSpeed);
-            _database.DefineParameter(insertCommand, "@People", DbType.String, people);
             _database.DefineParameter(insertCommand, "@Breaks", DbType.Int32, breaks);
-            _database.DefineParameter(insertCommand, "@LinearDistance", DbType.Int32, linearDistance);
+            _database.DefineParameter(insertCommand, "@Weather", DbType.String, weather);
+            _database.DefineParameter(insertCommand, "@FuelConsumption", DbType.Int32, fuelConsumption);
+            _database.DefineParameter(insertCommand, "@Passenger", DbType.String, passenger);
+            _database.DefineParameter(insertCommand, "@Elevation", DbType.Int32, elevation);
 
             return FindById(_database.ExecuteScalar(insertCommand));
         }
@@ -70,7 +70,7 @@ namespace TourPlanner.DataAccess.Implementation {
             _database.ExecuteScalar(deleteCommand);
         }
 
-        public Log EditTourLog(Log tourLog, string dateTime, string report, int distance, string totalTime, int rating, string vehicle, int avgSpeed, string people, int breaks, int linearDistance)
+        public Log EditTourLog(Log tourLog, string dateTime, string report, int distance, string totalTime, int rating, int breaks, string weather, int fuelConsumption, string passenger, int elevation)
         {
             DbCommand editCommand = _database.CreateCommand(SqlEditTourLog);
             _database.DefineParameter(editCommand, "@DateTime", DbType.String, dateTime);
@@ -78,11 +78,11 @@ namespace TourPlanner.DataAccess.Implementation {
             _database.DefineParameter(editCommand, "@Distance", DbType.Int32, distance);
             _database.DefineParameter(editCommand, "@TotalTime", DbType.String, totalTime);
             _database.DefineParameter(editCommand, "@Rating", DbType.Int32, rating);
-            _database.DefineParameter(editCommand, "@Vehicle", DbType.String, vehicle);
-            _database.DefineParameter(editCommand, "@AvgSpeed", DbType.Int32, avgSpeed);
-            _database.DefineParameter(editCommand, "@People", DbType.String, people);
             _database.DefineParameter(editCommand, "@Breaks", DbType.Int32, breaks);
-            _database.DefineParameter(editCommand, "@LinearDistance", DbType.Int32, linearDistance);
+            _database.DefineParameter(editCommand, "@Weather", DbType.String, weather);
+            _database.DefineParameter(editCommand, "@FuelConsumption", DbType.Int32, fuelConsumption);
+            _database.DefineParameter(editCommand, "@Passenger", DbType.String, passenger);
+            _database.DefineParameter(editCommand, "@Elevation", DbType.Int32, elevation);
             _database.DefineParameter(editCommand, "@Id", DbType.Int32, tourLog.Id);
 
             return FindById(_database.ExecuteScalar(editCommand));
@@ -123,11 +123,11 @@ namespace TourPlanner.DataAccess.Implementation {
                         (int)reader["Distance"],
                         (string)reader["TotalTime"],
                         (int)reader["Rating"],
-                        (string)reader["Vehicle"],
-                        (int)reader["AvgSpeed"],
-                        (string)reader["People"],
                         (int)reader["Breaks"],
-                        (int)reader["LinearDistance"]));
+                        (string)reader["Weather"],
+                        (int)reader["FuelConsumption"],
+                        (string)reader["Passenger"],
+                        (int)reader["Elevation"]));
                 }
             }
 
