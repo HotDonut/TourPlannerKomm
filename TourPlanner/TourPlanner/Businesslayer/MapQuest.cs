@@ -71,23 +71,17 @@ namespace TourPlanner.BusinessLayer {
 
         private string GetUniqueFilename()
         {
-            DateTime dt = DateTime.Now;
-            var checkName = dt.ToString("yyyyMMdd");
-            var fileIndex = 1;
-            
-            string[] files = Directory.GetFiles(_filePath);
-            foreach (var fileName in files)
+            Random rand = new Random();
+            var imageName = Convert.ToString(rand.Next(999999999));
+            imageName += ".jpg";
+
+            while (File.Exists(_filePath + @"\" + imageName) == true)
             {
-                if (fileName.Contains(checkName))
-                {
-                    var split = fileName.Split(checkName + "_");
-                    var checkNumber = Int32.Parse(split[1].Split(".jpg")[0]);
-                    if (checkNumber >= fileIndex)
-                        fileIndex = checkNumber + 1;
-                }
+                imageName = Convert.ToString(rand.Next(999999999));
+                imageName += ".jpg";
             }
 
-            return checkName+"_"+fileIndex;
+            return imageName;
         }
 
         public bool DoesLocationExist(string location)

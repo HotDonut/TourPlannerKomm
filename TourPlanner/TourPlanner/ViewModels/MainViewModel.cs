@@ -22,6 +22,8 @@ namespace TourPlanner.ViewModels
         public ObservableCollection<Log> LogList { get; set; }
         public string Name { get; set; }
 
+        private Tour _currentTour;
+
 
 
         public MainViewModel()
@@ -38,6 +40,19 @@ namespace TourPlanner.ViewModels
             foreach (var tour in this._tourPlannerFactory.GetTours())
             {
                 TourList.Add(tour);
+            }
+        }
+
+        public Tour CurrentTour
+        {
+            get => _currentTour;
+            set
+            {
+                if (_currentTour != value)
+                {
+                    _currentTour = value;
+                    RaisePropertyChangedEvent(nameof(CurrentTour));
+                }
             }
         }
 
