@@ -16,17 +16,19 @@ namespace TourPlanner.BusinessLayer {
         private readonly HttpClient _client;
         private readonly string _apiKey;
         private readonly string _filePath;
+        private JObject _routeData;
 
-        public MapQuest()
+        public MapQuest(string fromLocation, string toLocation)
         {
             _baseUrl = "https://www.mapquestapi.com";
             _client = new HttpClient();
             _apiKey = ConfigurationManager.AppSettings["MapQuestKey"];
             _filePath = ConfigurationManager.AppSettings["ImagePath"];
+            _routeData = SaveRouteInformation(fromLocation, toLocation);
         }
 
 
-        public int GetRouteInformation(string fromLocation, string toLocation)
+        private JObject SaveRouteInformation(string fromLocation, string toLocation)
         {
             if (DoesLocationExist(fromLocation) && DoesLocationExist(toLocation))
             {
@@ -34,20 +36,27 @@ namespace TourPlanner.BusinessLayer {
                 using (WebClient client = new WebClient())
                 {
                     JObject jSonResponse = JObject.Parse(client.DownloadString(url));
-                    int distance = (int)jSonResponse["route"]["distance"];
-                    return distance;
+                    return jSonResponse;
                 }
             }
 
-            return -1;
+            return null;
         }
 
-        public string LoadImage(string fromLocation, string toLocation)
+        public int GetRouteDistance()
         {
-            if (DoesLocationExist(fromLocation) && DoesLocationExist(toLocation))
-            {
+            return (int)_routeData["route"]["distance"];
+        }
 
-                var url = _baseUrl + "/staticmap/v5/map?start=" + fromLocation + "&end=" + toLocation + "&size=600,400@2x&key=" + _apiKey;
+        public string LoadImage()
+        {
+            string session = (string)_routeData["route"]["sessionId"];
+            string lrLng = (string)_routeData["route"]["boundingBox"]["lr"]["lng"];
+            string lrLat = (string)_routeData["route"]["boundingBox"]["lr"]["lat"];
+            string ulLng = (string)_routeData["route"]["boundingBox"]["ul"]["lng"];
+            string ulLat = (string)_routeData["route"]["boundingBox"]["ul"]["lat"];
+
+            var url = _baseUrl + "/staticmap/v5/map?key=" + _apiKey + "&size=600,600" + "&session=" + session + "&boundingBox=" + ulLat + "," + ulLng + "," + lrLat + "," + lrLng;
                 var fileName = GetUniqueFilename();
                 var fullFilePath = _filePath + fileName + ".jpg";
                 using (WebClient client = new WebClient())
@@ -64,9 +73,6 @@ namespace TourPlanner.BusinessLayer {
                     }
                 }
                 return fullFilePath;
-            }
-
-            return "";
         }
 
         private string GetUniqueFilename()

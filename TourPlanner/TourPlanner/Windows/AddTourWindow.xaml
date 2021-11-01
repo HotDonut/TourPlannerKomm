@@ -16,7 +16,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Border Grid.Row="1" BorderThickness="0.5" BorderBrush="Gray"/>
@@ -61,15 +60,6 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Margin="0,5,0,0" Content="Description:"/>
             <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourDescription, Mode=OneWayToSource}"/>
-        </Grid>
-
-        <Grid Row="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Margin="0,5,0,0" Content="Distance:"/>
-            <TextBox Grid.Row="1" Margin="5,0,5,10" Text="{Binding TourDistance, Mode=OneWayToSource, FallbackValue=0}" PreviewTextInput="NumbersOnly"/>
         </Grid>
 
         <Grid Row="6">

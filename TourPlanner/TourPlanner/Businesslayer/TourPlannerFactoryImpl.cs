@@ -76,12 +76,12 @@ namespace TourPlanner.BusinessLayer
             return found.Distinct();
             }
 
-        public Tour AddTour(string tourName, string tourDescription, string tourFromLocation, string tourToLocation, int tourDistance)
+        public Tour AddTour(string tourName, string tourDescription, string tourFromLocation, string tourToLocation)
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
-            MapQuest mapQuest = new MapQuest();
-            tourDistance = mapQuest.GetRouteInformation(tourFromLocation, tourToLocation);
-            string imagePath = mapQuest.LoadImage(tourFromLocation, tourToLocation);
+            MapQuest mapQuest = new MapQuest(tourFromLocation, tourToLocation);
+            string imagePath = mapQuest.LoadImage();
+            int tourDistance = mapQuest.GetRouteDistance();
             return tourDao.AddNewTour(tourName, tourFromLocation, tourToLocation, tourDescription, tourDistance, imagePath);
         }
 
@@ -112,12 +112,12 @@ namespace TourPlanner.BusinessLayer
             tourLogDao.DeleteTourLog(tourLog);
         }
 
-        public Tour EditTour(Tour tour, string tourName, string tourDescription, string tourFromLocation, string tourToLocation,
-            int tourDistance)
+        public Tour EditTour(Tour tour, string tourName, string tourDescription, string tourFromLocation, string tourToLocation)
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
-            MapQuest mapQuest = new MapQuest();
-            string imagePath = mapQuest.LoadImage(tourFromLocation, tourToLocation);
+            MapQuest mapQuest = new MapQuest(tourFromLocation, tourToLocation);
+            string imagePath = mapQuest.LoadImage();
+            int tourDistance = mapQuest.GetRouteDistance();
             return tourDao.EditTour(tour, tourName, tourDescription, tourFromLocation, tourToLocation, tourDistance, imagePath);
         }
 

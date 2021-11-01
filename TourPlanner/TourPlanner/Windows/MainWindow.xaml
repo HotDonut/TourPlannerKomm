@@ -57,12 +57,14 @@
         <!-- Tour Info Grid Layout -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
+            <Image Source="{Binding CurrentTour.ImagePath}" Grid.Column="0" AutomationProperties.HelpText="Map Image"/>
+
             <!-- Tour Info Table -->
-            <DataGrid Margin="2,0,2,2" ItemsSource="{Binding TourList}"
+            <DataGrid Grid.Column="1" Margin="2,0,2,2" ItemsSource="{Binding TourList}"
                           AutoGenerateColumns="False" 
                           AlternatingRowBackground="LightGray"
                           CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
@@ -111,7 +113,6 @@
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Image Source="{Binding CurrentTour.ImagePath}" Grid.Column="1" AutomationProperties.HelpText="Map Image"/>
         </Grid>
 
         <Grid Grid.Row="2">
