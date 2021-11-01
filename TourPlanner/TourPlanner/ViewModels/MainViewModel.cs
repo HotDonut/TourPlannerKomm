@@ -25,6 +25,10 @@ namespace TourPlanner.ViewModels
         public ICommand CopyCommand => _copyCommand ??= new RelayCommand(CopyTour);
         private ICommand _addLogCommand;
         public ICommand AddLogCommand => _addLogCommand ??= new RelayCommand(AddLog);
+        private ICommand _editLogCommand;
+        public ICommand EditLogCommand => _editLogCommand ??= new RelayCommand(EditLog);
+        private ICommand _removeLogCommand;
+        public ICommand RemoveLogCommand => _removeLogCommand ??= new RelayCommand(RemoveLog);
 
 
         public ObservableCollection<Tour> TourList { get; set; }
@@ -140,6 +144,33 @@ namespace TourPlanner.ViewModels
             else
             {
                 MessageBox.Show("Please select the tour you want to copy!");
+            }
+        }
+
+        private void EditLog(object commandParameter)
+        {
+            if (CurrentLog != null)
+            {
+                EditLogWindow editLogWindow = new EditLogWindow(this, CurrentTour, CurrentLog);
+                editLogWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select the log you want to edit!");
+            }
+        }
+
+        private void RemoveLog(object commandParameter)
+        {
+            if (CurrentLog != null)
+            {
+                _tourPlannerFactory.DeleteTourLog(CurrentLog);
+                CurrentLog = null;
+                LoadLogs(CurrentTour);
+            }
+            else
+            {
+                MessageBox.Show("Please select the log you want to delete!");
             }
         }
     }
