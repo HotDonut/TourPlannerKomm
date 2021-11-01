@@ -67,7 +67,7 @@ namespace TourPlanner.DataAccess.Implementation
             _database.ExecuteScalar(deleteCommand);
         }
 
-        public Tour EditTour(Tour tour, string tourName, string tourFromLocation, string tourToLocation, string tourDescription,
+        public Tour EditTour(Tour tour, string tourName, string tourDescription, string tourFromLocation, string tourToLocation,
             int tourDistance, string tourImagePath)
         {
             DbCommand editCommand = _database.CreateCommand(SqlEditTour);
