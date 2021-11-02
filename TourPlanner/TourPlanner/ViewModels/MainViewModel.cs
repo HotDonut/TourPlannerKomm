@@ -42,11 +42,16 @@ namespace TourPlanner.ViewModels
         public ICommand ExportDataCommand => _exportDataCommand ??= new RelayCommand(ExportData);
         private ICommand _importDataCommand;
         public ICommand ImportDataCommand => _importDataCommand ??= new RelayCommand(ImportData);
-
+        public ICommand SearchCommand => _searchCommand ??= new RelayCommand(Search);
+        private ICommand _searchCommand;
+        public ICommand SearchLogCommand => _searchLogCommand ??= new RelayCommand(SearchLog);
+        private ICommand _searchLogCommand;
 
         public ObservableCollection<Tour> TourList { get; set; }
         public ObservableCollection<Log> LogList { get; set; }
         public string Name { get; set; }
+        private string _searchTourName;
+        private string _searchLogValue;
 
         private Tour _currentTour;
         private Log _currentLog;
@@ -78,6 +83,42 @@ namespace TourPlanner.ViewModels
                 {
                     _currentLog = value;
                     RaisePropertyChangedEvent(nameof(CurrentLog));
+                }
+            }
+        }
+
+        public string SearchTourName
+        {
+            get
+            {
+                if (_searchTourName == null)
+                    return "";
+                return _searchTourName;
+            }
+            set
+            {
+                if (_searchTourName != value)
+                {
+                    _searchTourName = value;
+                    RaisePropertyChangedEvent(nameof(SearchTourName));
+                }
+            }
+        }
+
+        public string SearchLogValue
+        {
+            get
+            {
+                if (_searchLogValue == null)
+                    return "";
+                return _searchLogValue;
+            }
+            set
+            {
+                if (_searchLogValue != value)
+                {
+                    _searchLogValue = value;
+                    RaisePropertyChangedEvent(nameof(SearchLogValue));
                 }
             }
         }
@@ -291,6 +332,33 @@ namespace TourPlanner.ViewModels
                 _log.Warn("Unsuccessfully tried to export data.");
                 MessageBox.Show("An unexpected error occurred while exporting the data!");
             }
+        }
+
+        private void Search(object commandParameter)
+        {
+            _log.Info("Search Tour function was called.");
+            IEnumerable foundTours = this._tourPlannerFactory.Search(SearchTourName);
+            TourList.Clear();
+            foreach (Tour tour in foundTours)
+            {
+                TourList.Add(tour);
+            }
+        }
+
+        private void SearchLog(object commandParameter)
+        {
+            _log.Info("Search Log function was called.");
+            if (CurrentTour != null)
+            {
+                IEnumerable foundTourLogs = this._tourPlannerFactory.SearchTourLog(CurrentTour, SearchLogValue);
+                LogList.Clear();
+                foreach (Log tourLog in foundTourLogs)
+                {
+                    LogList.Add(tourLog);
+                }
+            }
+            else
+                _log.Debug("Can't search Logs. No Tour was selected.");
         }
     }
 }

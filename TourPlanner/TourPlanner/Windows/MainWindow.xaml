@@ -28,15 +28,13 @@
             <Grid Grid.Column="0" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="867*"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column = "0" Margin="0,10,20,0" Content="Tours:" Grid.ColumnSpan="2"/>
-                <TextBox Grid.Column = "1" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="20" Margin="2,0,0,2" Grid.ColumnSpan="2"/>
-                <Button Grid.Column = "3" VerticalAlignment="Bottom" Margin="0,0,0,2"  MinWidth="50" MaxWidth="100" HorizontalAlignment="Left" Height="20" Content="Search">
-                </Button>
+                <Label Grid.Column = "0" Margin="0,10,0,0" Content="Tours:"/>
+                <TextBox Grid.Column = "1" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="20" Margin="2,2,0,2" Text="{Binding SearchTourName, Mode=TwoWay}"/>
+                <Button Grid.Column = "2" VerticalAlignment="Bottom" Margin="0,2,2,2"  MinWidth="50" MaxWidth="100" HorizontalAlignment="Left" Height="20" Content="Search" Command="{Binding SearchCommand}"/>
             </Grid>
             <Grid Grid.Column="1" Grid.Row="0">
 
@@ -133,8 +131,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column = "0" Margin="0,10,0,0" Content="Logs:"/>
-                <TextBox Grid.Column = "1" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="20" Margin="2,2,0,2"/>
-                <Button Grid.Column = "2" VerticalAlignment="Bottom" Margin="0,2,2,2"  MinWidth="50" MaxWidth="100" HorizontalAlignment="Left" Height="20" Content="Search"/>
+                <TextBox Grid.Column = "1" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Height="20" Margin="2,2,0,2" Text="{Binding SearchLogValue, Mode=TwoWay}"/>
+                <Button Grid.Column = "2" VerticalAlignment="Bottom" Margin="0,2,2,2"  MinWidth="50" MaxWidth="100" HorizontalAlignment="Left" Height="20" Content="Search" Command="{Binding SearchLogCommand}"/>
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="0">
