@@ -58,7 +58,7 @@ namespace TourPlanner.BusinessLayer {
 
             var url = _baseUrl + "/staticmap/v5/map?key=" + _apiKey + "&size=600,600" + "&session=" + session + "&boundingBox=" + ulLat + "," + ulLng + "," + lrLat + "," + lrLng;
                 var fileName = GetUniqueFilename();
-                var fullFilePath = _filePath + fileName + ".jpg";
+                var fullFilePath = _filePath + fileName;
                 using (WebClient client = new WebClient())
                 {
                     //client.DownloadFile(new Uri(url), fullFilePath);

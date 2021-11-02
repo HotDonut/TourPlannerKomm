@@ -258,8 +258,8 @@
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="Import Data"/>
-            <Button Grid.Column="1" Content="Export Data"/>
+            <Button Grid.Column="0" Content="Import Data" Command="{Binding ImportDataCommand}"/>
+            <Button Grid.Column="1" Content="Export Data" Command="{Binding ExportDataCommand}"/>
             <Button Grid.Column="2" Content="Print Tour" Command="{Binding PrintTourCommand}"/>
             <Button Grid.Column="3" Content="Print All" Command="{Binding PrintAllCommand}"/>
         </Grid>

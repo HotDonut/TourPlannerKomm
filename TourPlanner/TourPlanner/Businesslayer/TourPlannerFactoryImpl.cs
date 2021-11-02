@@ -2,10 +2,10 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using TourPlanner.DataAccess.Interfaces;
-using TourPlanner.DataAccess.Implementation;
 using TourPlanner.Models;
 using TourPlanner.Businesslayer;
+using TourPlanner.DataAccess.Interfaces;
+using TourPlanner.DataAccess.Implementation;
 
 namespace TourPlanner.BusinessLayer
 {
@@ -145,6 +145,39 @@ namespace TourPlanner.BusinessLayer
             PDFGenerator gen = new PDFGenerator();
             ITourDAO tourDao = DALFactory.CreateTourDAO();
             return gen.GenerateReport(tourDao.GetTours());
+        }
+
+        public bool ExportData()
+        {
+            ILogDAO tourLogDao = DALFactory.CreateTourLogDAO();
+            IEnumerable<Log> logs = tourLogDao.GetAllLogs();
+
+            IJsonHandler handler = new JsonHandler();
+
+
+            return handler.ExportData(GetTours(), logs);
+        }
+
+        public bool ImportData()
+        {
+            IJsonHandler handler = new JsonHandler();
+            JsonData data = handler.ImportData();
+
+            if (data == null)
+                return false;
+
+            foreach (var tour in data.Tours)
+            {
+                Tour dbTour = AddTour(tour.Name, tour.Description, tour.FromLocation, tour.ToLocation);
+                foreach (var log in data.Logs)
+                {
+                    if (tour.Id == log.TourId)
+                    {
+                        AddTourLog(dbTour, log.DateTime, log.Report, log.Distance, log.TotalTime, log.Rating, log.Breaks, log.Weather, log.FuelConsumption, log.Passenger, log.Elevation);
+                    }
+                }
+            }
+            return true;
         }
     }
 }

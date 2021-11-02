@@ -38,6 +38,10 @@ namespace TourPlanner.ViewModels
         public ICommand PrintTourCommand => _printTourCommand ??= new RelayCommand(PrintTour);
         private ICommand _printAllCommand;
         public ICommand PrintAllCommand => _printAllCommand ??= new RelayCommand(PrintAll);
+        private ICommand _exportDataCommand;
+        public ICommand ExportDataCommand => _exportDataCommand ??= new RelayCommand(ExportData);
+        private ICommand _importDataCommand;
+        public ICommand ImportDataCommand => _importDataCommand ??= new RelayCommand(ImportData);
 
 
         public ObservableCollection<Tour> TourList { get; set; }
@@ -53,7 +57,7 @@ namespace TourPlanner.ViewModels
             get => _currentTour;
             set
             {
-                if (_currentTour != value)
+                if (_currentTour != value && value != null)
                 {
                     _currentTour = value;
                     RaisePropertyChangedEvent(nameof(CurrentTour));
@@ -96,7 +100,7 @@ namespace TourPlanner.ViewModels
         private void LoadLogs(Tour tour)
         {
             LogList.Clear();
-            foreach (var log in this._tourPlannerFactory.GetTourLogs(tour))
+            foreach (var log in this._tourPlannerFactory.GetTourLogs(CurrentTour))
             {
                 LogList.Add(log);
             }
@@ -112,15 +116,20 @@ namespace TourPlanner.ViewModels
 
         private void RemoveTour(object commandParameter)
         {
-            string imagePath = CurrentTour.ImagePath;
-            CurrentTour.ImagePath = null;
-            RaisePropertyChangedEvent(nameof(CurrentTour));
-            _tourPlannerFactory.DeleteTour(CurrentTour, imagePath);
-            CurrentTour = null;
+            string imagePath = "";
 
-            _log.Info("Tour removed.");
+            if (CurrentTour != null)
+            {
+                imagePath = CurrentTour.ImagePath;
+                CurrentTour.ImagePath = null;
+                RaisePropertyChangedEvent(nameof(CurrentTour));
+                _tourPlannerFactory.DeleteTour(CurrentTour, imagePath);
 
-            LoadTours();
+                LogList.Clear();
+                LoadTours();
+            }
+            else
+                _log.Debug("Can't remove Tour. No Tour was selected.");
         }
 
         private void EditTour(object commandParameter)
@@ -248,6 +257,36 @@ namespace TourPlanner.ViewModels
             else
             {
                 MessageBox.Show("Could not create PDF for all tours.");
+            }
+        }
+
+        private void ImportData(object commandParameter)
+        {
+            _log.Info("Import data function was called.");
+            if (_tourPlannerFactory.ImportData())
+            {
+                _log.Info("Data was successfully imported.");
+                LoadTours();
+                MessageBox.Show("Data successfully imported!");
+            }
+            else
+            {
+                _log.Warn("Unsuccessfully tried to import data.");
+                MessageBox.Show("An unexpected error occurred while importing the data!");
+            }
+        }
+        private void ExportData(object commandParameter)
+        {
+            _log.Info("Export data function was called.");
+            if (_tourPlannerFactory.ExportData())
+            {
+                _log.Info("Data was successfully exported.");
+                MessageBox.Show("Data successfully exported!");
+            }
+            else
+            {
+                _log.Warn("Unsuccessfully tried to export data.");
+                MessageBox.Show("An unexpected error occurred while exporting the data!");
             }
         }
     }

@@ -19,5 +19,7 @@ namespace TourPlanner.BusinessLayer
         Log CopyTourLog(Tour tour, Log log);
         bool PrintData(Tour currentTour);
         bool PrintAllData();
+        bool ImportData();
+        bool ExportData();
     }
 }
