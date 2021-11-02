@@ -15,13 +15,10 @@ namespace TourPlanner.Models
         {
             get
             {
-                if (_imagePath == null || _imagePath.Equals(""))
-                    return @".\..\..\..\Images\Icon\No_Image_Icon.png";
-
                 if (File.Exists(_imagePath))
                     return _imagePath;
 
-                return @".\..\..\..\Images\Icon\No_Image_Icon.png";
+                return "";
             }
             set => _imagePath = value;
         }
@@ -46,13 +43,6 @@ namespace TourPlanner.Models
 
             string erg = ergObj.ToString();
             return caseSensitive ? erg : erg.ToLower();
-        }
-
-        public bool HasImage()
-        {
-            if (ImagePath.Equals(@".\..\..\..\Images\Icon\No_Image_Icon.png"))
-                return false;
-            return true;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using TourPlanner.BusinessLayer;
 using TourPlanner.Models;
+using TourPlanner.Logger;
 
 namespace TourPlanner.ViewModels
 {
@@ -11,6 +12,8 @@ namespace TourPlanner.ViewModels
         private Window _window;
         private MainViewModel _mainView;
         private ITourPlannerFactory _tourPlannerFactory;
+
+        private static readonly log4net.ILog _log = LogHelper.GetLogger();
 
         private Tour _tour;
 
@@ -89,6 +92,7 @@ namespace TourPlanner.ViewModels
             _tourToLocation = tour.ToLocation;
 
             this._tourPlannerFactory = TourPlannerFactory.GetInstance();
+            _log.Info("Edit Tour Window initialized.");
         }
 
         private void EditTour(object commandParameter)
@@ -98,6 +102,7 @@ namespace TourPlanner.ViewModels
             {
                 _mainView.TourList.Remove(_tour);
                 _mainView.TourList.Add(tour);
+                _log.Info("Editet tour added to tour list");
             }
             _window.Close();
         }
@@ -105,6 +110,7 @@ namespace TourPlanner.ViewModels
         private void CancelTour(object commandParameter)
         {
             _window.Close();
+            _log.Info("Editing process of tour canceled. No tour added.");
         }
     }
 }

@@ -8,12 +8,15 @@ using System.Collections.ObjectModel;
 using TourPlanner.Models;
 using TourPlanner.Windows;
 using TourPlanner.BusinessLayer;
+using TourPlanner.Logger;
 
 namespace TourPlanner.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
         private ITourPlannerFactory _tourPlannerFactory;
+
+        private static readonly log4net.ILog _log = LogHelper.GetLogger();
 
         private ICommand _addCommand;
         public ICommand AddCommand => _addCommand ??= new RelayCommand(AddTour);
@@ -87,6 +90,7 @@ namespace TourPlanner.ViewModels
             {
                 TourList.Add(tour);
             }
+            _log.Info("All tours loaded.");
         }
 
         private void LoadLogs(Tour tour)
@@ -96,12 +100,14 @@ namespace TourPlanner.ViewModels
             {
                 LogList.Add(log);
             }
+            _log.Info("All logs loaded.");
         }
 
         private void AddTour(object commandParameter)
         {
             AddTourWindow addTourWindow = new AddTourWindow(this);
             addTourWindow.Show();
+            _log.Info("Tour adding process started.");
         }
 
         private void RemoveTour(object commandParameter)
@@ -112,6 +118,8 @@ namespace TourPlanner.ViewModels
             _tourPlannerFactory.DeleteTour(CurrentTour, imagePath);
             CurrentTour = null;
 
+            _log.Info("Tour removed.");
+
             LoadTours();
         }
 
@@ -121,9 +129,13 @@ namespace TourPlanner.ViewModels
             {
                 EditTourWindow editTourWindow = new EditTourWindow(this, CurrentTour);
                 editTourWindow.Show();
-            } else  {
+                _log.Info("Tour editing process started.");
+            }
+            else
+            {
                 MessageBox.Show("Please select the tour you want to edit!");
-            }           
+                _log.Warn("Tour editing process could not be started.");
+            }
         }
 
         private void CopyTour(object commandParameter)
@@ -132,11 +144,13 @@ namespace TourPlanner.ViewModels
             {
                 Tour tour = _tourPlannerFactory.CopyTour(CurrentTour);
                 TourList.Add(tour);
+                _log.Info("Tour copying process started.");
                 LoadTours();
             }
             else
             {
                 MessageBox.Show("Please select the tour you want to copy!");
+                _log.Warn("Tour copying process could not be started.");
             }
         }
 
@@ -146,10 +160,12 @@ namespace TourPlanner.ViewModels
             {
                 AddLogWindow addLogWindow = new AddLogWindow(this, CurrentTour);
                 addLogWindow.Show();
+                _log.Info("Log adding process started.");
             }
             else
             {
                 MessageBox.Show("Please select the tour you want to copy!");
+                _log.Warn("Log adding process could not be started.");
             }
         }
 
@@ -159,10 +175,12 @@ namespace TourPlanner.ViewModels
             {
                 EditLogWindow editLogWindow = new EditLogWindow(this, CurrentTour, CurrentLog);
                 editLogWindow.Show();
+                _log.Info("Log editing process started.");
             }
             else
             {
                 MessageBox.Show("Please select the log you want to edit!");
+                _log.Warn("Log editing process could not be started.");
             }
         }
 
@@ -173,10 +191,12 @@ namespace TourPlanner.ViewModels
                 _tourPlannerFactory.DeleteTourLog(CurrentLog);
                 CurrentLog = null;
                 LoadLogs(CurrentTour);
+                _log.Info("Log removed.");
             }
             else
             {
                 MessageBox.Show("Please select the log you want to delete!");
+                _log.Warn("Log could not be removed.");
             }
         }
 
@@ -187,10 +207,12 @@ namespace TourPlanner.ViewModels
                 Log log = _tourPlannerFactory.CopyTourLog(CurrentTour, CurrentLog);
                 LogList.Add(log);
                 LoadLogs(CurrentTour);
+                _log.Info("Log copied.");
             }
             else
             {
                 MessageBox.Show("Please select the log you want to copy!");
+                _log.Warn("Log could not be copied.");
             }
         }
 
@@ -200,11 +222,18 @@ namespace TourPlanner.ViewModels
             {
                 if (_tourPlannerFactory.PrintData(CurrentTour))
                 {
+                    _log.Info("PDF successfully created for one tour.");
                     MessageBox.Show("Successfully created PDF at location specified in the config file");
+                }
+                else
+                {
+                    _log.Warn("PDF creation failed.");
+                    MessageBox.Show("Could not create PDF for one tour.");
                 }
             }
             else
             {
+                log.Warn("PDF creation failed (No Tour selected).");
                 MessageBox.Show("Please select the tour you want to print!");
             }
         }
@@ -213,7 +242,12 @@ namespace TourPlanner.ViewModels
         {
             if (_tourPlannerFactory.PrintAllData())
             {
+                _log.Info("PDF successfully created for all tours.");
                 MessageBox.Show("Successfully created PDF at location specified in the config file");
+            } 
+            else
+            {
+                MessageBox.Show("Could not create PDF for all tours.");
             }
         }
     }

@@ -3,14 +3,18 @@ using System.Windows;
 using System.Windows.Input;
 using TourPlanner.BusinessLayer;
 using TourPlanner.Models;
+using TourPlanner.Logger;
 
-namespace TourPlanner.ViewModels {
+namespace TourPlanner.ViewModels
+{
     class AddLogViewModel : ViewModelBase
     {
 
         private Window _window;
         private MainViewModel _mainView;
         private ITourPlannerFactory _tourPlannerFactory;
+
+        private static readonly log4net.ILog _log = LogHelper.GetLogger();
 
         private Tour _tour;
 
@@ -29,7 +33,7 @@ namespace TourPlanner.ViewModels {
 
         private ICommand _addLogCommand;
         private ICommand _cancelLogCommand;
-        
+
 
         public ICommand AddLogCommand => _addLogCommand ??= new RelayCommand(AddLog);
         public ICommand CancelLogCommand => _cancelLogCommand ??= new RelayCommand(CancelLog);
@@ -37,8 +41,10 @@ namespace TourPlanner.ViewModels {
         public String TourName
         {
             get => _tourName;
-            set{
-                if (_tourName != value) {
+            set
+            {
+                if (_tourName != value)
+                {
                     _tourName = value;
                     RaisePropertyChangedEvent(nameof(TourName));
                 }
@@ -48,8 +54,10 @@ namespace TourPlanner.ViewModels {
         public String DateTime
         {
             get => _dateTime;
-            set{
-                if (_dateTime != value) {
+            set
+            {
+                if (_dateTime != value)
+                {
                     _dateTime = value;
                     RaisePropertyChangedEvent(nameof(DateTime));
                 }
@@ -59,8 +67,10 @@ namespace TourPlanner.ViewModels {
         public String Report
         {
             get => _report;
-            set{
-                if (_report != value) {
+            set
+            {
+                if (_report != value)
+                {
                     _report = value;
                     RaisePropertyChangedEvent(nameof(Report));
                 }
@@ -70,8 +80,10 @@ namespace TourPlanner.ViewModels {
         public int Distance
         {
             get => _distance;
-            set{
-                if (_distance != value) {
+            set
+            {
+                if (_distance != value)
+                {
                     _distance = value;
                     RaisePropertyChangedEvent(nameof(Distance));
                 }
@@ -81,8 +93,10 @@ namespace TourPlanner.ViewModels {
         public String TotalTime
         {
             get => _totalTime;
-            set{
-                if (_totalTime != value) {
+            set
+            {
+                if (_totalTime != value)
+                {
                     _totalTime = value;
                     RaisePropertyChangedEvent(nameof(TotalTime));
                 }
@@ -91,8 +105,10 @@ namespace TourPlanner.ViewModels {
         public int Rating
         {
             get => _rating;
-            set{
-                if (_rating != value) {
+            set
+            {
+                if (_rating != value)
+                {
                     _rating = value;
                     RaisePropertyChangedEvent(nameof(Rating));
                 }
@@ -101,8 +117,10 @@ namespace TourPlanner.ViewModels {
         public int Breaks
         {
             get => _breaks;
-            set{
-                if (_breaks != value) {
+            set
+            {
+                if (_breaks != value)
+                {
                     _breaks = value;
                     RaisePropertyChangedEvent(nameof(Breaks));
                 }
@@ -111,8 +129,10 @@ namespace TourPlanner.ViewModels {
         public string Weather
         {
             get => _weather;
-            set{
-                if (_weather != value) {
+            set
+            {
+                if (_weather != value)
+                {
                     _weather = value;
                     RaisePropertyChangedEvent(nameof(Weather));
                 }
@@ -121,8 +141,10 @@ namespace TourPlanner.ViewModels {
         public int FuelConsumption
         {
             get => _fuelConsumption;
-            set{
-                if (_fuelConsumption != value) {
+            set
+            {
+                if (_fuelConsumption != value)
+                {
                     _fuelConsumption = value;
                     RaisePropertyChangedEvent(nameof(FuelConsumption));
                 }
@@ -131,8 +153,10 @@ namespace TourPlanner.ViewModels {
         public string Passenger
         {
             get => _passenger;
-            set{
-                if (_passenger != value) {
+            set
+            {
+                if (_passenger != value)
+                {
                     _passenger = value;
                     RaisePropertyChangedEvent(nameof(Passenger));
                 }
@@ -141,8 +165,10 @@ namespace TourPlanner.ViewModels {
         public int Elevation
         {
             get => _elevation;
-            set{
-                if (_elevation != value) {
+            set
+            {
+                if (_elevation != value)
+                {
                     _elevation = value;
                     RaisePropertyChangedEvent(nameof(Elevation));
                 }
@@ -156,18 +182,21 @@ namespace TourPlanner.ViewModels {
             _tour = tour;
             _mainView = mainView;
             this._tourPlannerFactory = TourPlannerFactory.GetInstance();
+            _log.Info("Add Log Window initialized.");
         }
 
         private void AddLog(object commandParameter)
         {
-            Log tourLog = _tourPlannerFactory.AddTourLog(_tour, _dateTime, _report,_distance, _totalTime, _rating, _breaks, _weather, _fuelConsumption, _passenger, _elevation);
+            Log tourLog = _tourPlannerFactory.AddTourLog(_tour, _dateTime, _report, _distance, _totalTime, _rating, _breaks, _weather, _fuelConsumption, _passenger, _elevation);
             _mainView.LogList.Add(tourLog);
             _window.Close();
+            _log.Info("Log added to tour");
         }
 
         private void CancelLog(object commandParameter)
         {
             _window.Close();
+            _log.Info("Adding process of log canceled. No log added.");
         }
     }
 }

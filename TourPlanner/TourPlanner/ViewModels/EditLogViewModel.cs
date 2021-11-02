@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using TourPlanner.BusinessLayer;
 using TourPlanner.Models;
+using TourPlanner.Logger;
 
 namespace TourPlanner.ViewModels
 {
@@ -12,6 +13,8 @@ namespace TourPlanner.ViewModels
         private Window _window;
         private MainViewModel _mainView;
         private ITourPlannerFactory _tourPlannerFactory;
+
+        private static readonly log4net.ILog _log = LogHelper.GetLogger();
 
         private Log _tourLog;
 
@@ -190,15 +193,17 @@ namespace TourPlanner.ViewModels
             _elevation = log.Elevation;
 
             this._tourPlannerFactory = TourPlannerFactory.GetInstance();
+            _log.Info("Edit Log Window initialized.");
         }
 
         private void EditLog(object commandParameter)
         {
             Log tourLog = _tourPlannerFactory.EditTourLog(_tourLog, DateTime, Report, Distance, TotalTime, Rating, Breaks, Weather, FuelConsumption, Passenger, Elevation);
             if (tourLog != null)
-            {
+            {               
                 _mainView.LogList.Remove(_tourLog);
                 _mainView.LogList.Add(tourLog);
+                _log.Info("Editet log added to LogList");
             }
 
             _window.Close();
@@ -207,6 +212,7 @@ namespace TourPlanner.ViewModels
         private void CancelLog(object commandParameter)
         {
             _window.Close();
+            _log.Info("Editing process of log canceled. No log edited.");
         }
     }
 }
