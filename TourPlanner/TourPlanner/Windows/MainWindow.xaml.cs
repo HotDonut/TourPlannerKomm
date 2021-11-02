@@ -11,6 +11,7 @@ namespace TourPlanner.Windows
         public MainWindow()
         {
             InitializeComponent();
+            log4net.Config.XmlConfigurator.Configure();
             this.DataContext = new MainViewModel();
         }
     }

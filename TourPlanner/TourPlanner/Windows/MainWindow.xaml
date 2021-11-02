@@ -6,7 +6,7 @@
         xmlns:viewModels="clr-namespace:TourPlanner.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         mc:Ignorable="d"
-        Title="TourPlanner" Height="800" Width="1200">
+        Title="TourPlanner" Height="800" Width="1000">
 
     <Grid>
         <Grid.RowDefinitions>

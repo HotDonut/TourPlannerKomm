@@ -42,10 +42,11 @@ namespace TourPlanner.ViewModels
         public ICommand ExportDataCommand => _exportDataCommand ??= new RelayCommand(ExportData);
         private ICommand _importDataCommand;
         public ICommand ImportDataCommand => _importDataCommand ??= new RelayCommand(ImportData);
-        public ICommand SearchCommand => _searchCommand ??= new RelayCommand(Search);
         private ICommand _searchCommand;
-        public ICommand SearchLogCommand => _searchLogCommand ??= new RelayCommand(SearchLog);
+        public ICommand SearchCommand => _searchCommand ??= new RelayCommand(Search);
         private ICommand _searchLogCommand;
+        public ICommand SearchLogCommand => _searchLogCommand ??= new RelayCommand(SearchLog);
+
 
         public ObservableCollection<Tour> TourList { get; set; }
         public ObservableCollection<Log> LogList { get; set; }
