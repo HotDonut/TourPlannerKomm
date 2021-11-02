@@ -233,7 +233,7 @@ namespace TourPlanner.ViewModels
             }
             else
             {
-                log.Warn("PDF creation failed (No Tour selected).");
+                _log.Warn("PDF creation failed (No Tour selected).");
                 MessageBox.Show("Please select the tour you want to print!");
             }
         }
