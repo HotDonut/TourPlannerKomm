@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using TourPlanner.Models;
 
 namespace TourPlanner.Businesslayer
 {
-    public interface IJsonHandler
+    public interface IPDFGenerator
     {
-        public bool ExportData(IEnumerable<Tour> tours, IEnumerable<Log> logs);
-        public JsonData ImportData();
+        bool GenerateReport(IEnumerable<Tour> tours);
     }
 }

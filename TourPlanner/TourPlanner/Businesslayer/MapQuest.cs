@@ -45,18 +45,25 @@ namespace TourPlanner.BusinessLayer {
 
         public int GetRouteDistance()
         {
-            return (int)_routeData["route"]["distance"];
+            if (_routeData != null)
+            {
+                return (int)_routeData["route"]["distance"];
+            }
+
+            return -1;
         }
 
         public string LoadImage()
         {
-            string session = (string)_routeData["route"]["sessionId"];
-            string lrLng = (string)_routeData["route"]["boundingBox"]["lr"]["lng"];
-            string lrLat = (string)_routeData["route"]["boundingBox"]["lr"]["lat"];
-            string ulLng = (string)_routeData["route"]["boundingBox"]["ul"]["lng"];
-            string ulLat = (string)_routeData["route"]["boundingBox"]["ul"]["lat"];
+            if(_routeData != null)
+            {
+                string session = (string)_routeData["route"]["sessionId"];
+                string lrLng = (string)_routeData["route"]["boundingBox"]["lr"]["lng"];
+                string lrLat = (string)_routeData["route"]["boundingBox"]["lr"]["lat"];
+                string ulLng = (string)_routeData["route"]["boundingBox"]["ul"]["lng"];
+                string ulLat = (string)_routeData["route"]["boundingBox"]["ul"]["lat"];
 
-            var url = _baseUrl + "/staticmap/v5/map?key=" + _apiKey + "&size=600,600" + "&session=" + session + "&boundingBox=" + ulLat + "," + ulLng + "," + lrLat + "," + lrLng;
+                var url = _baseUrl + "/staticmap/v5/map?key=" + _apiKey + "&size=600,600" + "&session=" + session + "&boundingBox=" + ulLat + "," + ulLng + "," + lrLat + "," + lrLng;
                 var fileName = GetUniqueFilename();
                 var fullFilePath = _filePath + fileName;
                 using (WebClient client = new WebClient())
@@ -64,7 +71,7 @@ namespace TourPlanner.BusinessLayer {
                     //client.DownloadFile(new Uri(url), fullFilePath);
                     //client.Dispose();
                     var data = client.DownloadData(url);
-                    using(var ms = new MemoryStream(data))
+                    using (var ms = new MemoryStream(data))
                     {
                         using (var image = Image.FromStream(ms))
                         {
@@ -73,6 +80,9 @@ namespace TourPlanner.BusinessLayer {
                     }
                 }
                 return fullFilePath;
+            }
+            return "";
+            
         }
 
         private string GetUniqueFilename()

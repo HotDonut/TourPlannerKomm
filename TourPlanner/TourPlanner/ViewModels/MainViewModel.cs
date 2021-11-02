@@ -57,11 +57,14 @@ namespace TourPlanner.ViewModels
             get => _currentTour;
             set
             {
-                if (_currentTour != value && value != null)
+                if (_currentTour != value)
                 {
                     _currentTour = value;
                     RaisePropertyChangedEvent(nameof(CurrentTour));
-                    LoadLogs(_currentTour);
+                    if(_currentTour != null)
+                    {
+                        LoadLogs(_currentTour);
+                    }                
                 }
             }
         }
@@ -116,14 +119,14 @@ namespace TourPlanner.ViewModels
 
         private void RemoveTour(object commandParameter)
         {
-            string imagePath = "";
 
             if (CurrentTour != null)
             {
-                imagePath = CurrentTour.ImagePath;
-                CurrentTour.ImagePath = null;
-                RaisePropertyChangedEvent(nameof(CurrentTour));
+
+                string imagePath = CurrentTour.ImagePath;
+                
                 _tourPlannerFactory.DeleteTour(CurrentTour, imagePath);
+                CurrentTour = null;
 
                 LogList.Clear();
                 LoadTours();

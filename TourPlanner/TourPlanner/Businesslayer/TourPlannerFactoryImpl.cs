@@ -11,7 +11,6 @@ namespace TourPlanner.BusinessLayer
 {
     internal class TourPlannerFactoryImpl : ITourPlannerFactory
     {
-
         public IEnumerable<Tour> GetTours()
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
@@ -99,7 +98,11 @@ namespace TourPlanner.BusinessLayer
         public void DeleteTour(Tour tour, string imagePath)
         {
             ITourDAO tourDao = DALFactory.CreateTourDAO();
-
+            List<Log> logs = (List<Log>)GetTourLogs(tour);
+            foreach(Log tourLog in logs)
+            {
+                DeleteTourLog(tourLog);
+            }
             tourDao.DeleteTour(tour);
         }
 

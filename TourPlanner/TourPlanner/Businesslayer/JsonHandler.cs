@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 using TourPlanner.Models;
 
 
-namespace TourPlanner.BusinessLayer
+namespace TourPlanner.Businesslayer
 {
     public class JsonHandler : IJsonHandler
     {
@@ -23,6 +23,12 @@ namespace TourPlanner.BusinessLayer
             _importFilePath = ConfigurationManager.AppSettings["JsonImportFile"];
         }
 
+        public JsonHandler(string filepath)
+        {
+            _filepath = filepath;
+            _importFilePath = filepath;
+        }
+
         public bool ExportData(IEnumerable<Tour> tours, IEnumerable<Log> logs)
         {
 
@@ -30,9 +36,10 @@ namespace TourPlanner.BusinessLayer
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             string finalPath = _filepath + "export.json";
 
+            if(Directory.Exists(_filepath))
+                File.WriteAllText(finalPath, json);
 
-            File.WriteAllText(finalPath, json);
-            return true;
+            return File.Exists(finalPath);
         }
 
         public JsonData ImportData()
@@ -44,7 +51,7 @@ namespace TourPlanner.BusinessLayer
                 sr.Close();
                 return JsonConvert.DeserializeObject<JsonData>(json);
             }
-            return null;
+            return new JsonData();
         }
     }
 }

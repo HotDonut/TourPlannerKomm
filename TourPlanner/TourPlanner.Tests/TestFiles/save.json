@@ -1,0 +1,29 @@
+{
+  "Tours": [
+    {
+      "Id": 39,
+      "Name": "USA",
+      "Description": "asd",
+      "FromLocation": "Chicago",
+      "ToLocation": "Detroit",
+      "Distance": 455,
+      "ImagePath": "D:\\Images\\782239906.jpg"
+    }
+  ],
+  "Logs": [
+    {
+      "Id": 1,
+      "TourId": 39,
+      "DateTime": "30-01-1997",
+      "Report": "servus",
+      "Distance": 20,
+      "TotalTime": "12:33",
+      "Rating": 3,
+      "Breaks": 2,
+      "Weather": "Clear",
+      "FuelConsumption": 80,
+      "Passenger": "Rudy",
+      "Elevation": 40
+    }
+  ]
+}

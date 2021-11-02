@@ -10,13 +10,18 @@ using IronPdf;
 
 namespace TourPlanner.Businesslayer
 {
-    public class PDFGenerator
+    public class PDFGenerator : IPDFGenerator
     {
         private static string _filepath;
 
         public PDFGenerator()
         {
             _filepath = ConfigurationManager.AppSettings["PdfExportPath"];
+        }
+
+        public PDFGenerator(string filepath)
+        {
+            _filepath = filepath;
         }
 
         public bool GenerateReport(IEnumerable<Tour> tours)
