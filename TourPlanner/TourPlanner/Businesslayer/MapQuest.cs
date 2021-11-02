@@ -27,7 +27,6 @@ namespace TourPlanner.BusinessLayer {
             _routeData = SaveRouteInformation(fromLocation, toLocation);
         }
 
-
         private JObject SaveRouteInformation(string fromLocation, string toLocation)
         {
             if (DoesLocationExist(fromLocation) && DoesLocationExist(toLocation))
@@ -68,8 +67,6 @@ namespace TourPlanner.BusinessLayer {
                 var fullFilePath = _filePath + fileName;
                 using (WebClient client = new WebClient())
                 {
-                    //client.DownloadFile(new Uri(url), fullFilePath);
-                    //client.Dispose();
                     var data = client.DownloadData(url);
                     using (var ms = new MemoryStream(data))
                     {

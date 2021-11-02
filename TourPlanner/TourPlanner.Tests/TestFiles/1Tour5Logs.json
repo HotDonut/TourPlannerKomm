@@ -1,0 +1,85 @@
+{
+  "Tours": [
+    {
+      "Id": 52,
+      "Name": "USA",
+      "Description": "asd",
+      "FromLocation": "Chicago",
+      "ToLocation": "Detroit",
+      "Distance": 455,
+      "ImagePath": "D:\\Images\\73782971.jpg"
+    }
+  ],
+  "Logs": [
+    {
+      "Id": 26,
+      "TourId": 52,
+      "DateTime": "asfd",
+      "Report": "adfasdf",
+      "Distance": 0,
+      "TotalTime": "asdfasfd",
+      "Rating": 0,
+      "Breaks": 0,
+      "Weather": "asdfafs",
+      "FuelConsumption": 0,
+      "Passenger": "asdfasfd",
+      "Elevation": 0
+    },
+    {
+      "Id": 27,
+      "TourId": 52,
+      "DateTime": "asdfasfd",
+      "Report": "asdffasd",
+      "Distance": 0,
+      "TotalTime": "asdfasfd",
+      "Rating": 0,
+      "Breaks": 0,
+      "Weather": "asdffasd",
+      "FuelConsumption": 0,
+      "Passenger": "asdfasfd",
+      "Elevation": 0
+    },
+    {
+      "Id": 28,
+      "TourId": 52,
+      "DateTime": "ghdh",
+      "Report": "adfs",
+      "Distance": 0,
+      "TotalTime": "asfd",
+      "Rating": 0,
+      "Breaks": 0,
+      "Weather": "adsf",
+      "FuelConsumption": 0,
+      "Passenger": "asdfa",
+      "Elevation": 0
+    },
+    {
+      "Id": 29,
+      "TourId": 52,
+      "DateTime": "adsfa",
+      "Report": "fhqaht",
+      "Distance": 0,
+      "TotalTime": "zqfg",
+      "Rating": 0,
+      "Breaks": 0,
+      "Weather": "asga",
+      "FuelConsumption": 0,
+      "Passenger": "adfaf",
+      "Elevation": 0
+    },
+    {
+      "Id": 30,
+      "TourId": 52,
+      "DateTime": "qawtqw",
+      "Report": "adf",
+      "Distance": 0,
+      "TotalTime": "zq",
+      "Rating": 0,
+      "Breaks": 0,
+      "Weather": "fgafd",
+      "FuelConsumption": 0,
+      "Passenger": "adfafd",
+      "Elevation": 0
+    }
+  ]
+}

@@ -70,7 +70,50 @@ namespace TourPlanner.Tests
         }
 
         [Test]
-        public void JsonHandler_ExportJsonWith5Tours0Log_ShouldReturnJsonDataObjectContainingToursAndLogs()
+        public void JsonHandler_ImportJsonWith1Tour5Log_ShouldReturnJsonDataObjectContainingToursAndLogs()
+        {
+            //arrange
+            var expectedFileName = @"..\..\..\TestFiles\1Tour5Logs.json";
+
+            IJsonHandler handler = new JsonHandler(expectedFileName);
+
+            //act
+            JsonData erg = handler.ImportData();
+
+            //assert
+            Assert.True(erg.Tours.ToList().Count == 1);
+            Assert.True(erg.Logs.ToList().Count == 5);
+        }
+
+        [Test]
+        public void JsonHandler_ExportJsonWith1Tour5Log_True()
+        {
+            //arrange
+            var expectedFileName = @"..\..\..\TestFiles\";
+            List<Tour> tourList = new List<Tour>();
+            List<Log> logList = new List<Log>();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                logList.Add(new Log(i, 1, "05-12-2021 18:23", "Report", 123, "11:03", 2, 3, "Clear", 23, "Rudi", 100));
+            }
+
+            IJsonHandler handler = new JsonHandler(expectedFileName);
+
+            //act
+            bool erg = handler.ExportData(tourList, logList);
+
+            //assert
+            Assert.True(erg);
+            Assert.True(File.Exists(expectedFileName + "export.json"));
+
+            //cleanup
+            if (File.Exists(expectedFileName + "export.json"))
+                File.Delete(expectedFileName + "export.json");
+        }
+
+        [Test]
+        public void JsonHandler_ExportJsonWith5Tour0Log_True()
         {
             //arrange
             var expectedFileName = @"..\..\..\TestFiles\";
